@@ -20,10 +20,12 @@ func SetupPlaySMS(incomingMessage []string) (url string) {
 		log.Print(err)
 		os.Exit(1)
 	}
-	if incomingMessage[0] == "lupapassword" {
+	if incomingMessage[0] == CommandLupapassword {
 		message = "Kode anda : " + incomingMessage[2] + " . Gunakan kode tersebut pada kolom kode verifikasi di laman Profil UNS"
-	} else if incomingMessage[0] == "sms" {
+	} else if incomingMessage[0] == CommandSMS {
 		message = strings.Join(incomingMessage[2:], " ")
+	} else if incomingMessage[0] == CommandBedanomer {
+		message = "mohon maaf. permintaan token harus dari nomer pengirim yang sama dengan nomer yang terdaftar di siakad atau simpeg."
 	}
 	q := req.URL.Query()
 	q.Add("app", PlaySMSApp)
@@ -105,7 +107,7 @@ func PlaySMSGetRequest(url string) (message string) {
 		fmt.Println(err.Error())
 	}
 
-	if jsonData.Status == "ERR" {
+	if jsonData.Status == StatusError {
 		message = "Status: " + jsonData.Status + " - " + jsonData.ErrorString
 	} else {
 		var jsonData ResponseSuccessProfil
@@ -114,12 +116,11 @@ func PlaySMSGetRequest(url string) (message string) {
 			fmt.Println(err.Error())
 		}
 		arrMessage := strings.Split(jsonData.Data[0].Message, " ")
-		log.Println(len(arrMessage))
-		log.Println(arrMessage)
-		if len(arrMessage) > 3 {
-			message = "lupapassword " + jsonData.Data[0].Destination + " " + arrMessage[3]
-		} else {
+		if len(arrMessage) < 3 {
 			message = "Nomor " + jsonData.Data[0].Destination + " belum pernah request kode."
+		} else {
+			kode := arrMessage[3]
+			message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
 		}
 	}
 	return
@@ -127,15 +128,17 @@ func PlaySMSGetRequest(url string) (message string) {
 
 //SetMessageReply funcion
 func SetMessageReply(url string, incomingMessage []string) (message string) {
-	if incomingMessage[0] == "sms" {
-		message = SetupPlaySMS(incomingMessage)
-	} else if incomingMessage[0] == "lupapassword" {
-		url = SetPlaySMSProfil(incomingMessage[1])
-		message = PlaySMSGetRequest(url)
-	} else {
-		message = "Unknown Command"
-	}
+	url = SetupPlaySMS(incomingMessage)
+	message = PlaySMSSend(url)
 	return
+}
+
+//CheckCommand function
+func CheckCommand(incomingMessage []string) bool {
+	allowedCommand := []string{CommandGetSMS, CommandBedanomer, CommandLupapassword, CommandSMS}
+	command := incomingMessage[0]
+	res, _ := InArray(command, allowedCommand)
+	return res
 }
 
 func main() {
@@ -165,18 +168,20 @@ func main() {
 		text := strings.ToLower(update.Message.Text)
 		incomingMessage := strings.Split(text, " ")
 
-		if incomingMessage[0] == "getsms" {
-			urlProfil := SetPlaySMSProfil(incomingMessage[1])
-			message := PlaySMSGetRequest(urlProfil)
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
-			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
-		} else {
-			url := SetupPlaySMS(incomingMessage)
-			message := SetMessageReply(url, incomingMessage)
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
-			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
+		message := "Unknown Command"
+
+		if CheckCommand(incomingMessage) {
+			if incomingMessage[0] == CommandGetSMS {
+				urlProfil := SetPlaySMSProfil(incomingMessage[1])
+				message = PlaySMSGetRequest(urlProfil)
+			} else {
+				url := SetupPlaySMS(incomingMessage)
+				message = SetMessageReply(url, incomingMessage)
+			}
 		}
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
+		msg.ReplyToMessageID = update.Message.MessageID
+		bot.Send(msg)
 	}
 }
