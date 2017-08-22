@@ -1,0 +1,28 @@
+package main
+
+//PlaySMSURL const
+const PlaySMSURL = "###"
+
+//PlaySMSApp const
+const PlaySMSApp = "###"
+
+//PlaySMSOp const
+const PlaySMSOp = "###"
+
+//PlaySMSUser const
+const PlaySMSUser = "###"
+
+//PlaySMSToken const
+const PlaySMSToken = "###"
+
+//PlaySMSOpProfil const
+const PlaySMSOpProfil = "###"
+
+//PlaySMSUserProfil const
+const PlaySMSUserProfil = "###"
+
+//PlaySMSTokenProfil const
+const PlaySMSTokenProfil = "###"
+
+//BotToken const
+const BotToken = "###"
