@@ -85,6 +85,7 @@ func PlaySMSSend(url string) (message string) {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
+		fmt.Println(jsonData.Data[0].SmsLog)
 		message = "Status: " + jsonData.Data[0].Status
 	}
 	return
@@ -122,6 +123,7 @@ func PlaySMSGetRequest(url string) (message string) {
 			kode := arrMessage[3]
 			message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
 		}
+		fmt.Println(jsonData.Data[0].Message)
 	}
 	return
 }
