@@ -1,28 +1,32 @@
 package main
 
-//PlaySMSURL const
-const PlaySMSURL = "###"
-
-//PlaySMSApp const
-const PlaySMSApp = "###"
-
-//PlaySMSOp const
-const PlaySMSOp = "###"
-
-//PlaySMSUser const
-const PlaySMSUser = "###"
-
-//PlaySMSToken const
-const PlaySMSToken = "###"
-
-//PlaySMSOpProfil const
-const PlaySMSOpProfil = "###"
-
-//PlaySMSUserProfil const
-const PlaySMSUserProfil = "###"
-
-//PlaySMSTokenProfil const
-const PlaySMSTokenProfil = "###"
-
-//BotToken const
-const BotToken = "###"
+const (
+	//PlaySMSURL const
+	PlaySMSURL = "###"
+	//PlaySMSApp const
+	PlaySMSApp = "###"
+	//PlaySMSOp const
+	PlaySMSOp = "###"
+	//PlaySMSUser const
+	PlaySMSUser = "###"
+	//PlaySMSToken const
+	PlaySMSToken = "###"
+	//PlaySMSOpProfil const
+	PlaySMSOpProfil = "###"
+	//PlaySMSUserProfil const
+	PlaySMSUserProfil = "###"
+	//PlaySMSTokenProfil const
+	PlaySMSTokenProfil = "###"
+	//BotToken const
+	BotToken = "###"
+	//CommandGetSMS const
+	CommandGetSMS = "###"
+	//CommandLupapassword const
+	CommandLupapassword = "###"
+	//CommandSMS const
+	CommandSMS = "###"
+	//CommandBedanomer const
+	CommandBedanomer = "###
+	//StatusError const
+	StatusError = "###
+)
