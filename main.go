@@ -20,13 +20,9 @@ func SetupPlaySMS(incomingMessage []string) (url string) {
 		log.Print(err)
 		os.Exit(1)
 	}
-	if incomingMessage[0] == CommandLupapassword {
-		message = "Kode anda : " + incomingMessage[2] + " . Gunakan kode tersebut pada kolom kode verifikasi di laman Profil UNS"
-	} else if incomingMessage[0] == CommandSMS {
-		message = strings.Join(incomingMessage[2:], " ")
-	} else if incomingMessage[0] == CommandBedanomer {
-		message = "mohon maaf. permintaan token harus dari nomer pengirim yang sama dengan nomer yang terdaftar di siakad atau simpeg."
-	}
+
+	message = getMessage(incomingMessage)
+
 	q := req.URL.Query()
 	q.Add("app", PlaySMSApp)
 	q.Add("op", PlaySMSOp)
@@ -37,6 +33,17 @@ func SetupPlaySMS(incomingMessage []string) (url string) {
 	req.URL.RawQuery = q.Encode()
 
 	url = req.URL.String()
+	return
+}
+
+func getMessage(incomingMessage []string) (message string) {
+	if incomingMessage[0] == CommandLupapassword {
+		message = "Kode anda : " + incomingMessage[2] + " . Gunakan kode tersebut pada kolom kode verifikasi di laman Profil UNS"
+	} else if incomingMessage[0] == CommandSMS {
+		message = strings.Join(incomingMessage[2:], " ")
+	} else if incomingMessage[0] == CommandBedanomer {
+		message = "mohon maaf. permintaan token harus dari nomer pengirim yang sama dengan nomer yang terdaftar di siakad atau simpeg."
+	}
 	return
 }
 
