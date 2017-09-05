@@ -1,1 +1,7 @@
 config.go
+
+#dir vendor
+vendor
+
+#file glide.lock
+glide.lock

@@ -1,0 +1,16 @@
+package: github.com/alimasyhur/go-telegram-playsms
+homepage: https://alimasyhur.github.io/go-telegram-playsms
+license: MIT
+owners:
+- name: Ali Masyhur
+  email: jegrag4ever@gmail.com
+  homepage: https://alimasyhur.github.io
+ignore:
+- appengine
+excludeDirs:
+- node_modules
+import:
+- package: gopkg.in/yaml.v2
+- package: gopkg.in/telegram-bot-api.v4
+testImport:
+- package: github.com/arschles/assert
