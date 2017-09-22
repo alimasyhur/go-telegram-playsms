@@ -1,7 +1,7 @@
-config.go
+#bin, pkg directory
+bin
+pkg
 
-#dir vendor
-vendor
 
-#file glide.lock
-glide.lock
+#config file
+src/botbotan/config.go
