@@ -22,3 +22,10 @@ func InArray(val interface{}, array interface{}) (exists bool, index int) {
 
 	return
 }
+
+func empty(s string) bool {
+	if len(s) > 0 {
+		return false
+	}
+	return true
+}

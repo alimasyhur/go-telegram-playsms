@@ -165,6 +165,7 @@ func main() {
 	updates, err := bot.GetUpdatesChan(u)
 
 	for update := range updates {
+
 		if update.Message == nil {
 			continue
 		}
@@ -177,20 +178,25 @@ func main() {
 		text := strings.ToLower(update.Message.Text)
 		incomingMessage := strings.Split(text, " ")
 
-		message := "Unknown Command"
+		message := getSendMessage(incomingMessage)
 
-		if CheckCommand(incomingMessage) {
-			if incomingMessage[0] == CommandGetSMS {
-				urlProfil := SetPlaySMSProfil(incomingMessage[1])
-				message = PlaySMSGetRequest(urlProfil)
-			} else {
-				url := SetupPlaySMS(incomingMessage)
-				message = SetMessageReply(url, incomingMessage)
-			}
+		if !empty(message) {
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
+			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
 		}
-
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
-		msg.ReplyToMessageID = update.Message.MessageID
-		bot.Send(msg)
 	}
+}
+
+func getSendMessage(arrStr []string) (message string) {
+	if CheckCommand(arrStr) {
+		if arrStr[0] == CommandGetSMS {
+			urlProfil := SetPlaySMSProfil(arrStr[1])
+			message = PlaySMSGetRequest(urlProfil)
+		} else {
+			url := SetupPlaySMS(arrStr)
+			message = SetMessageReply(url, arrStr)
+		}
+	}
+	return
 }
