@@ -42,7 +42,7 @@ func getMessage(incomingMessage []string) (message string) {
 	} else if incomingMessage[0] == CommandSMS {
 		message = strings.Join(incomingMessage[2:], " ")
 	} else if incomingMessage[0] == CommandBedanomer {
-		message = "mohon maaf. permintaan token harus dari nomer pengirim yang sama dengan nomer yang terdaftar di siakad atau simpeg."
+		message = "mohon maaf. permintaan token hrs dr no pengirim yg sama dg yg terdaftar di siakad/simpeg. Update nomer di siakad.uns.ac.id/registrasi atau ke operator simpeg"
 	}
 	return
 }
