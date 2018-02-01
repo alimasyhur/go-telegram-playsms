@@ -72,16 +72,22 @@ func PlaySMSSend(url string) (message string) {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 	var jsonData ResponseError
 	err = json.Unmarshal(body, &jsonData)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 
 	if jsonData.Status == "ERR" {
@@ -91,6 +97,8 @@ func PlaySMSSend(url string) (message string) {
 		err = json.Unmarshal(body, &jsonData)
 		if err != nil {
 			fmt.Println(err.Error())
+			message = err.Error()
+			return
 		}
 		fmt.Println(jsonData.Data[0].SmsLog)
 		message = "Status: " + jsonData.Data[0].Status
@@ -103,16 +111,22 @@ func PlaySMSGetRequest(url string) (message string) {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 	var jsonData ResponseError
 	err = json.Unmarshal(body, &jsonData)
 	if err != nil {
 		fmt.Println(err.Error())
+		message = err.Error()
+		return
 	}
 
 	if jsonData.Status == StatusError {
@@ -122,6 +136,8 @@ func PlaySMSGetRequest(url string) (message string) {
 		err = json.Unmarshal(body, &jsonData)
 		if err != nil {
 			fmt.Println(err.Error())
+			message = err.Error()
+			return
 		}
 		arrMessage := strings.Split(jsonData.Data[0].Message, " ")
 		if len(arrMessage) < 3 {
@@ -189,11 +205,30 @@ func main() {
 }
 
 func getSendMessage(arrStr []string) (message string) {
+	if arrStr[0] == CommandGetSMS {
+		if len(arrStr) <= 1 {
+			message = "Pastikan perintah Anda benar: `getsms <no_hp>`"
+			return
+		}
+	} else if arrStr[0] == CommandBedanomer {
+		if len(arrStr) <= 1 {
+			message = "Pastikan perintah Anda benar: `bedanomer <no_hp>`"
+			return
+		}
+	} else if arrStr[0] == CommandSMS {
+		if len(arrStr) <= 1 {
+			message = "Pastikan perintah Anda benar: `sms <no_hp>`"
+			return
+		}
+	}
+
 	if CheckCommand(arrStr) {
 		if arrStr[0] == CommandGetSMS {
+			log.Println("SetPlaySMSProfil")
 			urlProfil := SetPlaySMSProfil(arrStr[1])
 			message = PlaySMSGetRequest(urlProfil)
 		} else {
+			log.Println("SetupPlay")
 			url := SetupPlaySMS(arrStr)
 			message = SetMessageReply(url, arrStr)
 		}
