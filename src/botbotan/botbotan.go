@@ -140,30 +140,19 @@ func PlaySMSGetRequest(url string) (message string) {
 			return
 		}
 		arrMessage := strings.Split(jsonData.Data[0].Message, " ")
+
 		if len(arrMessage) < 3 {
 			message = "Nomor " + jsonData.Data[0].Destination + " belum pernah request kode."
 		} else {
 			kode := arrMessage[3]
 			message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
+			if kode == strings.ToLower("uns") {
+				message = "sms " + jsonData.Data[0].Destination + " " + jsonData.Data[0].Message
+			}
 		}
 		fmt.Println(jsonData.Data[0].Message)
 	}
 	return
-}
-
-//SetMessageReply funcion
-func SetMessageReply(url string, incomingMessage []string) (message string) {
-	url = SetupPlaySMS(incomingMessage)
-	message = PlaySMSSend(url)
-	return
-}
-
-//CheckCommand function
-func CheckCommand(incomingMessage []string) bool {
-	allowedCommand := []string{CommandGetSMS, CommandBedanomer, CommandLupapassword, CommandSMS}
-	command := incomingMessage[0]
-	res, _ := InArray(command, allowedCommand)
-	return res
 }
 
 func main() {
@@ -202,36 +191,4 @@ func main() {
 			bot.Send(msg)
 		}
 	}
-}
-
-func getSendMessage(arrStr []string) (message string) {
-	if arrStr[0] == CommandGetSMS {
-		if len(arrStr) <= 1 {
-			message = "Pastikan perintah Anda benar: `getsms <no_hp>`"
-			return
-		}
-	} else if arrStr[0] == CommandBedanomer {
-		if len(arrStr) <= 1 {
-			message = "Pastikan perintah Anda benar: `bedanomer <no_hp>`"
-			return
-		}
-	} else if arrStr[0] == CommandSMS {
-		if len(arrStr) <= 1 {
-			message = "Pastikan perintah Anda benar: `sms <no_hp>`"
-			return
-		}
-	}
-
-	if CheckCommand(arrStr) {
-		if arrStr[0] == CommandGetSMS {
-			log.Println("SetPlaySMSProfil")
-			urlProfil := SetPlaySMSProfil(arrStr[1])
-			message = PlaySMSGetRequest(urlProfil)
-		} else {
-			log.Println("SetupPlay")
-			url := SetupPlaySMS(arrStr)
-			message = SetMessageReply(url, arrStr)
-		}
-	}
-	return
 }
