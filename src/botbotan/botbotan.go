@@ -145,13 +145,11 @@ func PlaySMSGetRequest(url string) (message string) {
 			message = "Nomor " + jsonData.Data[0].Destination + " belum pernah request kode."
 		} else {
 			kode := arrMessage[3]
-			message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
-
-			// if kode == strings.ToLower("uns") {
-			// 	message = "sms " + jsonData.Data[0].Destination + " " + jsonData.Data[0].Message
-			// } else {
-			// 	message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
-			// }
+			if kode == strings.ToLower("uns") {
+				message = "sms " + jsonData.Data[0].Destination + " " + jsonData.Data[0].Message
+			} else {
+				message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
+			}
 		}
 		fmt.Println(jsonData.Data[0].Message)
 	}
@@ -183,7 +181,7 @@ func main() {
 		}
 
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-		text := strings.ToLower(update.Message.Text)
+		text := FormatMessage(strings.ToLower(update.Message.Text))
 		incomingMessage := strings.Split(text, " ")
 
 		message := getSendMessage(incomingMessage)

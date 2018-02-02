@@ -1,6 +1,9 @@
 package main
 
-import "reflect"
+import (
+	"reflect"
+	"regexp"
+)
 
 //InArray function
 func InArray(val interface{}, array interface{}) (exists bool, index int) {
@@ -28,4 +31,14 @@ func empty(s string) bool {
 		return false
 	}
 	return true
+}
+
+//Format message function
+//skip double space
+func FormatMessage(input string) string {
+	re_leadclose_whtsp := regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`)
+	re_inside_whtsp := regexp.MustCompile(`[\s\p{Zs}]{2,}`)
+	final := re_leadclose_whtsp.ReplaceAllString(input, "")
+	final = re_inside_whtsp.ReplaceAllString(final, " ")
+	return final
 }
