@@ -145,9 +145,10 @@ func PlaySMSGetRequest(url string) (message string) {
 			message = "Nomor " + jsonData.Data[0].Destination + " belum pernah request kode."
 		} else {
 			kode := arrMessage[3]
-			message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
 			if kode == strings.ToLower("uns") {
 				message = "sms " + jsonData.Data[0].Destination + " " + jsonData.Data[0].Message
+			} else {
+				message = "lupapassword " + jsonData.Data[0].Destination + " " + kode
 			}
 		}
 		fmt.Println(jsonData.Data[0].Message)

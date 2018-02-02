@@ -43,9 +43,6 @@ func getSendMessage(arrStr []string) (message string) {
 		if arrStr[0] == CommandGetSMS {
 			urlProfil := SetPlaySMSProfil(arrStr[1])
 			message = PlaySMSGetRequest(urlProfil)
-		} else if arrStr[0] == CommandGet {
-			urlProfil := SetPlaySMSProfil(arrStr[1])
-			message = PlaySMSGetRequest(urlProfil)
 		} else {
 			url := SetupPlaySMS(arrStr)
 			message = SetMessageReply(url, arrStr)
