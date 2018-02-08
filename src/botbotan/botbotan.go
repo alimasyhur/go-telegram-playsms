@@ -75,6 +75,7 @@ func PlaySMSSend(url string) (message string) {
 		message = err.Error()
 		return
 	}
+	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -114,6 +115,7 @@ func PlaySMSGetRequest(url string) (message string) {
 		message = err.Error()
 		return
 	}
+	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {

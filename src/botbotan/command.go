@@ -37,6 +37,11 @@ func getSendMessage(arrStr []string) (message string) {
 			message = "Pastikan perintah Anda benar: `get <no_hp>`"
 			return
 		}
+	} else if arrStr[0] == CommandLupapassword {
+		if len(arrStr) <= 2 {
+			message = "Pastikan perintah Anda benar: `lupapassword <no_hp> <kode lupa password>`"
+			return
+		}
 	}
 
 	if CheckCommand(arrStr) {
