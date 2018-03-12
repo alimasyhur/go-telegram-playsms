@@ -143,7 +143,7 @@ func PlaySMSGetRequest(url string) (message string) {
 		}
 		arrMessage := strings.Split(jsonData.Data[0].Message, " ")
 
-		if len(arrMessage) < 3 {
+		if len(arrMessage) < 4 {
 			message = "Nomor " + jsonData.Data[0].Destination + " belum pernah request kode."
 		} else {
 			kode := arrMessage[3]
