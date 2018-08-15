@@ -33,12 +33,12 @@ func empty(s string) bool {
 	return true
 }
 
-//Format message function
+//FormatMessage function
 //skip double space
 func FormatMessage(input string) string {
-	re_leadclose_whtsp := regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`)
-	re_inside_whtsp := regexp.MustCompile(`[\s\p{Zs}]{2,}`)
-	final := re_leadclose_whtsp.ReplaceAllString(input, "")
-	final = re_inside_whtsp.ReplaceAllString(final, " ")
+	reLeadcloseWhtsp := regexp.MustCompile(`^[\s\p{Zs}]+|[\s\p{Zs}]+$`)
+	reInsideWhtsp := regexp.MustCompile(`[\s\p{Zs}]{2,}`)
+	final := reLeadcloseWhtsp.ReplaceAllString(input, "")
+	final = reInsideWhtsp.ReplaceAllString(final, " ")
 	return final
 }
