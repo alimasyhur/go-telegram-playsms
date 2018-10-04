@@ -1,10 +1,9 @@
 package main
 
 //SetMessageReply funcion
-func SetMessageReply(url string, incomingMessage []string) (message string) {
+func SetMessageReply(url string, incomingMessage []string) string {
 	url = SetupPlaySMS(incomingMessage)
-	message = PlaySMSSend(url)
-	return
+	return PlaySMSSend(url)
 }
 
 //CheckCommand function
